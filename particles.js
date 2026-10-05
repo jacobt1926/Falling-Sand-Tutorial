@@ -98,6 +98,8 @@ export class Water extends Particle {
 }
 
 
+
+
 export class Stone extends Particle {
     constructor() {
         super();
@@ -122,6 +124,37 @@ export class Grass extends Sand {
     }
 }
 
+export class Fire extends Particle {
+    constructor() {
+        super();
+        this.color = "red";
+        this.type = "fire";
+    }
+
+    update(row, col) {
+
+        // Make fire dissapear when it touches water
+        if (getParticle(row+1, col)?.type == "water") {
+            // Remove fire
+            setParticle(row, col, null);
+            return;
+        }
+
+        // Try to move down
+        if (getRandomInt(0, 2) && !getParticle(row+1, col)) {
+            moveParticle(row, col, row+1, col, super.swap);
+        } 
+        
+        // Move left or right
+        if (getRandomInt(0, 1) && !getParticle(row, col+1)) {
+            moveParticle(row, col, row, col+1, super.swap);
+        }
+        else if (!getParticle(row, col-1)) {
+            moveParticle(row, col, row, col-1, super.swap);
+        }
+    }
+}
+
 
 /**
  * Create particle based on dropdown name
@@ -141,6 +174,9 @@ export function checkParticleType(value) {
     }
     if (value == "Dirt") {
         return new Dirt();
+    }
+    if (value == "Fire") {
+        return new Fire();
     }
     // TODO create new particles
 }

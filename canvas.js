@@ -210,6 +210,7 @@ export function moveParticle(row, col, newRow, newCol, swap) {
     return true;
 }
 
+
 /**
  * Draws all particles
  */
